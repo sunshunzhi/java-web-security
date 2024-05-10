@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youth.dao.MenuDao">
+    <select id="selectPermsByUserId" resultType="String">
+        SELECT DISTINCT sm.`perms`
+        FROM sys_user_role sur
+                 LEFT JOIN `sys_role` sr
+                           ON sur.`roleId` = sr.`id`
+                 LEFT JOIN `sys_role_menu` srm
+                           ON srm.`roleId` = sr.`id`
+                 LEFT JOIN `sys_menu` sm
+                           ON sm.`id` = srm.`menuId`
+        WHERE userId = #{userId}
+          AND sr.`status` = 0
+          AND sm.`status` = 0
+    </select>
+</mapper>
